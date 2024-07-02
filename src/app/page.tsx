@@ -1,7 +1,10 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { Counter } from "../components/Counter";
 
 export default function Home() {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -29,6 +32,7 @@ export default function Home() {
       </div>
 
       <div className={styles.center}>
+        <h1>Syntapse</h1>
         <Image
           className={styles.logo}
           src="/next.svg"
@@ -37,7 +41,17 @@ export default function Home() {
           height={37}
           priority
         />
+        <h1>Capacitor</h1>
       </div>
+
+      <div>(to prove its actually doing something)</div>
+      <Counter />
+
+      {isDevelopment ?
+        <h2>Download and install <a href="/nextcap.apk">the Android app</a></h2>
+        :
+        <h2>Download/install/update this app <a href="https://nextcap.syntapse.co.uk">from the website</a></h2>
+      }
 
       <div className={styles.grid}>
         <a

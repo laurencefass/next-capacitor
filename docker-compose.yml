@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  node-app:
+    image: node:18.17.0
+    hostname: nextcap
+    container_name: nextcap
+    environment:
+    - VIRTUAL_HOST=nextcap.${LETSENCRYPT_HOST}
+    - LETSENCRYPT_HOST=nextcap.${LETSENCRYPT_HOST}
+    - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    expose:
+      - "3000"
+    volumes:
+      - .:/app
+      - ./.next.dev:/.next
+    working_dir: /app
+    # command: tail -f /dev/null
+    command: "npm run dev"
+    networks:
+      main-net: 
+
+networks:
+  main-net:
+    external:
+      name: proxy_main-net

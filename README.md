@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next JS capacitor integration.
 
-## Getting Started
+This is a Next JS website integrated with capacitor that can generate an android apk ready for installation on any device.
+In line with capacitor guidelines we generate a static site [(subject to these constraints)](https://nextjs.org/docs/app/building-your-application/deploying/static-exports) and use as the source of a gradle build.
 
-First, run the development server:
+# Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- The Next app requires node 18+. This repo runs the dev server in a docker container to ease development.
+- Generating Android apk image requires Java 17+ and Android SDK with JAVA_HOME, ANDROID_HOME and ANDROID_SDK_ROOT set.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+e.g.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+export JAVA_HOME="/usr/lib/jvm/jdk-17-oracle-x64"
+export ANDROID_HOME="/usr/local/android-sdk"
+export ANDROID_SDK_ROOT="/usr/local/android-sdk"
+export PATH="$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin"
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+# installation
 
-## Learn More
+- npx create-next-app@latest my-app
+- modify next.config.mjs to include output: 'export. [Read this](https://nextjs.org/docs/app/building-your-application/deploying/static-exports)
+- npx cap init
+- npx cap add android
 
-To learn more about Next.js, take a look at the following resources:
+# docker
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- aim is to run the dev server in a container for live updates and isolated output when building/rebuilding the static output
+- this is quite server specific so change for your environment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- docker compose up for the dev server. dev version outputs to .next.dev
 
-## Deploy on Vercel
+# create android app
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+After following these steps the apk android image available at [project root]/android/app/build/outputs/apk/debug.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+For quick testing I am pushing this to my /public folder so I can download and install from the website.
+
+## command line steps
+
+from project root
+
+- npm run build
+- npx cap sync
+
+from ./android (you need android and java sdk installed)
+
+- gradlew/assembleDebug

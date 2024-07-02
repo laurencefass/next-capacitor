@@ -11,7 +11,12 @@
 
 # next.js
 /.next/
+/.next.dev/
 /out/
+
+# android
+/android/
+*.apk
 
 # production
 /build
