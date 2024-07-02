@@ -1,6 +1,6 @@
 # Next JS capacitor integration.
 
-This is a Next JS website integrated with capacitor that can generate an android apk ready for installation on any device.
+[Next JS](https://nextjs.org/) website integrated with [Capacitor JS](https://capacitorjs.com/) = single codebase for website + android apk (aka an app) ready for installation on any device.
 In line with capacitor guidelines we generate a static site [(subject to these constraints)](https://nextjs.org/docs/app/building-your-application/deploying/static-exports) and use as the source of a gradle build.
 
 # Prerequisites
