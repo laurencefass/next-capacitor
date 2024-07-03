@@ -5,9 +5,13 @@ import { useSpring, animated } from 'react-spring';
 import { useDrag } from '@use-gesture/react';
 import './styles.css';
 
-const MARGIN_OFFSET = 20;
+const MARGIN_OFFSET = 0;
 
-export const Drawer: React.FC = () => {
+type DrawerProps = {
+    children: React.ReactNode;
+}
+
+export const Drawer: React.FC<DrawerProps> = ({ children }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [visible, setVisible] = useState(false);
     const [{ x }, api] = useSpring(() => ({ x: -window.innerWidth + MARGIN_OFFSET }));
@@ -17,6 +21,12 @@ export const Drawer: React.FC = () => {
         setIsDragging(down);
         console.log("useDrag");
 
+        if (!isDragging && !down && distX < 10) {
+            // Cancel the gesture if it's a click
+            console.log("its a click");
+            cancel();
+            return;
+        }
 
         if (down) {
             // Move the block as the user drags
@@ -25,7 +35,7 @@ export const Drawer: React.FC = () => {
             api.start({ x: visible ? Math.min(mx, 0) : Math.max(mx, -window.innerWidth + MARGIN_OFFSET) });
         }
 
-        if (dragStarted.current) {
+        if (!down && dragStarted.current) {
             // Opening logic
             if (!visible) {
                 if (distX > window.innerWidth * 0.2 && dx > 0) {
@@ -64,6 +74,7 @@ export const Drawer: React.FC = () => {
 
     return (
         <div className="drag-container">
+            <div className="drag-edge" {...bind()} />
             <animated.div
                 {...bind()}
                 className={`draggable ${isDragging ? 'dragging' : ''}`}
@@ -73,7 +84,7 @@ export const Drawer: React.FC = () => {
                     if (!dragStarted.current) e.preventDefault(); // Prevent default click behavior unless it was a drag
                 }}
             >
-                Drag me
+                {children}
             </animated.div>
         </div>
     );
