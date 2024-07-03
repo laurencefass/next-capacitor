@@ -5,7 +5,7 @@ import { useSpring, animated } from 'react-spring';
 import { useDrag } from '@use-gesture/react';
 import './styles.css';
 
-export const DraggableBlock: React.FC = () => {
+export const Drawer: React.FC = () => {
     const [isDragging, setIsDragging] = useState(false);
     const [visible, setVisible] = useState(false);
     const [{ x }, api] = useSpring(() => ({ x: -window.innerWidth + 50 }));

@@ -17,8 +17,5 @@
   align-items: center;
   cursor: grab;
   user-select: none;
-}
-
-.draggable.dragging {
-  cursor: grabbing;
+  touch-action: none; /* Prevents default touch behaviors */
 }
