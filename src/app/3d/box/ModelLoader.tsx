@@ -30,9 +30,6 @@ const Model: React.FC<ModelProps> = ({ url, rotation = [0, 0, 0], position = [0,
             });
         }
     }, [scene]);
-
-    console.log('Model loaded:', scene);
-
     return (
         <group ref={groupRef} position={position} scale={scale} rotation={rotation}>
             <primitive object={scene as Group} ref={modelRef} />

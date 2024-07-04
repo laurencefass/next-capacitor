@@ -8,9 +8,9 @@ export const Stars: React.FC = () => {
         const colors = new Float32Array(100 * 3);
 
         for (let i = 0; i < 100; i++) {
-            positions[i * 3] = (Math.random() - 0.5) * 100;
-            positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
-            positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
+            positions[i * 3] = (Math.random() - 0.5) * 200;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * 200;
+            positions[i * 3 + 2] = (Math.random() - 0.5) * 200;
 
             colors[i * 3] = Math.random();
             colors[i * 3 + 1] = Math.random();
