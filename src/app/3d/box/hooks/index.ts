@@ -17,9 +17,10 @@ export function useInterval(callback: () => void, delay: number | null) {
   }, [delay]);
 }
 
-export function useRotation(
-  onRotate: (direction: "up" | "down" | "left" | "right") => void
-) {
+export function useRotation() {
+  const [rotation, setRotation] = useState<[number, number, number]>([
+    0, 0.75, 0,
+  ]);
   const [direction, setDirection] = useState<string | null>(null);
 
   const startRotate = useCallback((dir: "up" | "down" | "left" | "right") => {
@@ -32,27 +33,67 @@ export function useRotation(
 
   useInterval(
     () => {
-      if (direction) {
-        onRotate(direction as "up" | "down" | "left" | "right");
-      }
+      setRotation((prev) => {
+        const newRotation = [...prev] as [number, number, number];
+        switch (direction) {
+          case "up":
+            newRotation[0] -= 0.1;
+            break;
+          case "down":
+            newRotation[0] += 0.1;
+            break;
+          case "left":
+            newRotation[1] -= 0.1;
+            break;
+          case "right":
+            newRotation[1] += 0.1;
+            break;
+        }
+        return newRotation;
+      });
     },
     direction ? 10 : null
   );
 
-  return { direction, startRotate, stopRotate };
+  return { rotation, startRotate, stopRotate };
 }
 
-export function useMovement(
-  moveDirection: string | null,
-  handleMove: (axis: "x" | "y" | "z", direction: 1 | -1) => void
-) {
+export function useMovement() {
+  const [position, setPosition] = useState<[number, number, number]>([0, 1, 0]);
+  const [moveDirection, setMoveDirection] = useState<string | null>(null);
+
+  const startMove = useCallback((axis: "x" | "y" | "z", direction: 1 | -1) => {
+    setMoveDirection(`${axis}${direction === 1 ? "+" : "-"}`);
+  }, []);
+
+  const stopMove = useCallback(() => {
+    setMoveDirection(null);
+  }, []);
+
   useInterval(
     () => {
-      if (moveDirection) {
-        const [axis, dir] = moveDirection.split("");
-        handleMove(axis as "x" | "y" | "z", dir === "+" ? 1 : -1);
-      }
+      setPosition((prev) => {
+        const newPosition = [...prev] as [number, number, number];
+        if (moveDirection) {
+          const [axis, dir] = moveDirection.split("");
+          const moveDir = dir === "+" ? 1 : -1;
+          switch (axis) {
+            case "x":
+              newPosition[0] += moveDir * 0.1;
+              break;
+            case "y":
+              newPosition[1] += moveDir * 0.1;
+              break;
+            case "z":
+              newPosition[2] += moveDir * 0.1;
+              break;
+          }
+        }
+        return newPosition;
+      });
     },
     moveDirection ? 10 : null
   );
+
+  return { position, startMove, stopMove };
 }
