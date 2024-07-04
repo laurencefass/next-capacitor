@@ -1,0 +1,27 @@
+.banner {
+  position: absolute;
+  width: 100vw;
+  top: 0px;
+  left: 0px;
+  z-index: 1000;
+  color: white;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.controls {
+  position: absolute;
+  width: 100vw;
+  bottom: 0px;
+  left: 0px;
+  z-index: 1000;
+  color: white;
+  padding: 20px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
+}

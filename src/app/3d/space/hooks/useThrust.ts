@@ -4,16 +4,34 @@ import { useInterval } from "./useInterval"; // Assuming useInterval is in a sep
 
 export function useThrust(handleThrust: (velocity: THREE.Vector3) => void) {
   const [thrust, setThrust] = useState<boolean>(false);
+  const [isLongPress, setIsLongPress] = useState<boolean>(false);
   const velocity = useRef(new THREE.Vector3(0, 0, -0.1)); // Adjusted velocity for forward thrust
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const startThrust = useCallback(() => {
     console.log("startThrust");
     setThrust(true);
+    timeoutRef.current = setTimeout(() => {
+      setIsLongPress(true);
+      setThrust(true);
+    }, 3000); // 3 seconds
   }, []);
 
   const stopThrust = useCallback(() => {
     console.log("stopThrust");
     setThrust(false);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    if (!isLongPress) {
+      setThrust(false);
+    } else {
+      setIsLongPress(false);
+    }
+  }, [isLongPress]);
+
+  const toggleThrust = useCallback(() => {
+    setThrust((prev) => !prev);
   }, []);
 
   useEffect(() => {
@@ -47,5 +65,5 @@ export function useThrust(handleThrust: (velocity: THREE.Vector3) => void) {
     thrust ? 10 : null
   );
 
-  return { thrust, startThrust, stopThrust };
+  return { thrust, startThrust, stopThrust, toggleThrust, isLongPress };
 }

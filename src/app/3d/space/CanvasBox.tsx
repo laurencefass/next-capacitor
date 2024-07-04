@@ -5,11 +5,14 @@ import * as THREE from 'three';
 import { useRotation, useMovement, useThrust } from './hooks';
 import RotationButtons from './RotationButtons';
 import DirectionButtons from './DirectionButtons';
+import ThrustButton from './ThrustButton';
 
 import Model from './Model';
 import { Stars } from './Stars';
 import { CameraTracker } from './CameraTracker';
 import { TexturedSphere } from './TexturedSphere';
+
+import "./CanvasBox.css";
 
 const CanvasBox: React.FC = () => {
   const { position, setPosition, startMove, stopMove } = useMovement();
@@ -24,20 +27,23 @@ const CanvasBox: React.FC = () => {
 
       // Update position based on the forward direction vector
       setPosition((prev) => [
-        prev[0] + forward.x * 0.1,
-        prev[1] + forward.y * 0.1,
-        prev[2] + forward.z * 0.1,
+        prev[0] + forward.x * 1,
+        prev[1] + forward.y * 1,
+        prev[2] + forward.z * 1,
       ]);
     }
   };
 
-  const { startThrust, stopThrust } = useThrust(handleThrust);
+  const { startThrust, stopThrust, toggleThrust, isLongPress } = useThrust(handleThrust);
 
   return (
     <>
+      <div className="banner">
+        <h1>React 3D demo: Space Explorer</h1>
+      </div>
       <Canvas
         style={{ background: "black", height: '100vh', width: '100vw' }}
-        camera={{ position: [0, 50, 0], rotation: [-Math.PI / 2, 0, 0] }}
+        camera={{ position: [0, 0, 50], rotation: [-Math.PI / 2, 0, 0] }}
         shadows
       >
         <CameraTracker position={position} />
@@ -56,20 +62,22 @@ const CanvasBox: React.FC = () => {
           shadow-camera-far={50}
         />
         <Model ref={modelRef} url="/models/capsule.glb" rotation={rotation} position={position} scale={[0.1, 0.1, 0.1]} />
-        <TexturedSphere url='/textures/jupiter.jpg' />
+        <TexturedSphere args={[200, 32, 32]} position={[0, -250, 0]} url='/textures/earth.jpg' />
+        <TexturedSphere args={[200, 32, 32]} position={[0, 0, 1200]} url='/textures/mars.jpg' />
+        <TexturedSphere args={[200, 32, 32]} position={[600, 0, -600]} url='/textures/venus.jpg' />
+        <TexturedSphere args={[600, 32, 32]} position={[0, 1200, 0]} url='/textures/jupiter.jpg' />
         <Stars />
       </Canvas>
-      <RotationButtons onRotateStart={startRotate} onRotateStop={stopRotate} />
-      <DirectionButtons onMoveStart={startMove} onMoveStop={stopMove} />
-      <button
-        onMouseDown={startThrust}
-        onMouseUp={stopThrust}
-        onTouchStart={startThrust}
-        onTouchEnd={stopThrust}
-        style={{ position: 'fixed', bottom: '20px', left: '45%', padding: '20px', backgroundColor: '#4cc3d9', color: 'white', border: 'none', borderRadius: '5px' }}
-      >
-        Thrust
-      </button>
+      <div className="controls">
+        <RotationButtons onRotateStart={startRotate} onRotateStop={stopRotate} />
+        <DirectionButtons onMoveStart={startMove} onMoveStop={stopMove} />
+        <ThrustButton
+          startThrust={startThrust}
+          stopThrust={stopThrust}
+          toggleThrust={toggleThrust}
+          isThrusting={isLongPress}
+        />
+      </div>
     </>
   );
 };

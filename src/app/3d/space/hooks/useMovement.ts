@@ -22,13 +22,13 @@ export function useMovement() {
           const moveDir = dir === "+" ? 1 : -1;
           switch (axis) {
             case "x":
-              newPosition[0] += moveDir * 0.5;
+              newPosition[0] += moveDir * 2;
               break;
             case "y":
-              newPosition[1] += moveDir * 0.5;
+              newPosition[1] += moveDir * 2;
               break;
             case "z":
-              newPosition[2] += moveDir * 0.5;
+              newPosition[2] += moveDir * 2;
               break;
           }
         }

@@ -25,10 +25,10 @@ export function useRotation() {
             newRotation[0] += 0.1;
             break;
           case "left":
-            newRotation[2] += 0.1;
+            newRotation[2] -= 0.1;
             break;
           case "right":
-            newRotation[2] -= 0.1;
+            newRotation[2] += 0.1;
             break;
         }
         return newRotation;
