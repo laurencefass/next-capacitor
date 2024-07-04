@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import "./DirectionButtons.css";
+import { useInterval } from './hooks/useInterval';
 
-type DirectionButtonProps = {
+export type DirectionButtonProps = {
     onMoveStart: (axis: 'x' | 'y' | 'z', direction: 1 | -1) => void;
     onMoveStop: () => void;
 };
+
 
 const DirectionButtons: React.FC<DirectionButtonProps> = ({ onMoveStart, onMoveStop }) => {
     return (

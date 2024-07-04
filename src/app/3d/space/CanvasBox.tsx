@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import * as THREE from 'three';
 
-import { useRotation, useMovement, useThrust } from './hooks';
+import { useRotation, useMovement, useThrust, useRotationHotkeys } from './hooks';
 import RotationButtons from './RotationButtons';
 import DirectionButtons from './DirectionButtons';
 import ThrustButton from './ThrustButton';
@@ -13,10 +13,14 @@ import { CameraTracker } from './CameraTracker';
 import { TexturedSphere } from './TexturedSphere';
 
 import "./CanvasBox.css";
+import GlowingDisk from './GlowingDisk';
+import ParticleCone from './ParticleCone';
+import GlowingTorus from './GlowingTorus';
 
 const CanvasBox: React.FC = () => {
   const { position, setPosition, startMove, stopMove } = useMovement();
   const { rotation, startRotate, stopRotate } = useRotation();
+  useRotationHotkeys({ onRotateStart: startRotate, onRotateStop: stopRotate });
 
   const modelRef = useRef<THREE.Group>(null);
 
@@ -27,19 +31,22 @@ const CanvasBox: React.FC = () => {
 
       // Update position based on the forward direction vector
       setPosition((prev) => [
-        prev[0] + forward.x * 1,
-        prev[1] + forward.y * 1,
-        prev[2] + forward.z * 1,
+        prev[0] + forward.x * 2,
+        prev[1] + forward.y * 2,
+        prev[2] + forward.z * 2,
       ]);
     }
   };
 
   const { startThrust, stopThrust, toggleThrust, isLongPress } = useThrust(handleThrust);
 
+  const groupRef = useRef<THREE.Group>(null);
+
   return (
     <>
       <div className="banner">
         <h1>React 3D demo: Space Explorer</h1>
+        <p>Simple demo of react-three-fiber and drei utility functions</p>
       </div>
       <Canvas
         style={{ background: "black", height: '100vh', width: '100vw' }}
@@ -61,13 +68,17 @@ const CanvasBox: React.FC = () => {
           shadow-camera-near={0.5}
           shadow-camera-far={50}
         />
-        <Model ref={modelRef} url="/models/capsule.glb" rotation={rotation} position={position} scale={[0.1, 0.1, 0.1]} />
+        {/* <group ref={groupRef} rotation={rotation} position={position}> */}
+        <Model ref={modelRef} rotation={rotation} position={position} url="/models/capsule.glb" scale={[0.1, 0.1, 0.1]} />
+        {/* <GlowingTorus isVisible={true} position={[0, 0, -0.1]} /> */}
+        {/* </group> */}
+        a
         <TexturedSphere args={[200, 32, 32]} position={[0, -250, 0]} url='/textures/earth.jpg' />
         <TexturedSphere args={[200, 32, 32]} position={[0, 0, 1200]} url='/textures/mars.jpg' />
         <TexturedSphere args={[200, 32, 32]} position={[600, 0, -600]} url='/textures/venus.jpg' />
         <TexturedSphere args={[600, 32, 32]} position={[0, 1200, 0]} url='/textures/jupiter.jpg' />
         <Stars />
-      </Canvas>
+      </Canvas >
       <div className="controls">
         <RotationButtons onRotateStart={startRotate} onRotateStop={stopRotate} />
         <DirectionButtons onMoveStart={startMove} onMoveStop={stopMove} />

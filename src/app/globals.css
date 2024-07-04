@@ -73,6 +73,21 @@
   }
 }
 
+.nav {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: flex-end;
+  z-index: 10000;
+  position: absolute;
+  top: 0px;
+  right: 20px;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 20px;
+  color: gray;
+}
+
 button {
   -webkit-touch-callout: none; /* Prevent callout to copy image, etc when touch and hold */
   -webkit-user-select: none; /* Disable text selection */

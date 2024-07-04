@@ -14,4 +14,7 @@ const Model = forwardRef<Group, ModelProps>(({ url, position = [0, 0, 0], scale 
     return <primitive object={scene} position={position} scale={scale} rotation={rotation} ref={ref} />;
 });
 
+// Set displayName for the component
+Model.displayName = 'Model';
+
 export default Model;

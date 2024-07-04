@@ -14,7 +14,7 @@ export function useThrust(handleThrust: (velocity: THREE.Vector3) => void) {
     timeoutRef.current = setTimeout(() => {
       setIsLongPress(true);
       setThrust(true);
-    }, 3000); // 3 seconds
+    }, 2000); // 3 seconds
   }, []);
 
   const stopThrust = useCallback(() => {
