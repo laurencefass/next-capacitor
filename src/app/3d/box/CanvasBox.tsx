@@ -1,15 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { OrbitControls, Sphere, Stars } from '@react-three/drei';
+import { OrbitControls, Sphere, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
 import { useRotation, useMovement } from './hooks';
 import RotationButtons from './RotationButtons';
 import DirectionButtons from './DirectionButtons';
+
 import Model from './ModelLoader';
+import { Stars } from './Stars';
 
 const TexturedSphere: React.FC = () => {
-  const texture = useLoader(THREE.TextureLoader, '/textures/jupiter.jpg'); // Replace with your texture path
+  const texture = useTexture('/textures/jupiter.jpg'); // Replace with your texture path
 
   return (
     <Sphere args={[20, 32, 32]} position={[0, -20, 0]} receiveShadow castShadow>
@@ -19,20 +21,29 @@ const TexturedSphere: React.FC = () => {
 };
 
 const CameraController: React.FC<{ position: [number, number, number] }> = ({ position }) => {
+  const cameraRef = useRef<THREE.PerspectiveCamera>(null);
   const controlsRef = useRef<any>(null);
 
   useFrame(({ camera }) => {
-    if (controlsRef.current) {
-      // Adjust the camera's position smoothly
-      const desiredPosition = new THREE.Vector3(position[0], position[1] + 50, position[2]);
+    if (cameraRef.current && controlsRef.current) {
+      const fixedDistance = 20; // Fixed distance from the model
+      const modelPosition = new THREE.Vector3(...position);
+      const direction = new THREE.Vector3().subVectors(camera.position, modelPosition).normalize();
+      const desiredPosition = direction.multiplyScalar(fixedDistance).add(modelPosition);
+
       camera.position.lerp(desiredPosition, 0.1);
-      // Make sure the OrbitControls target is updated
-      controlsRef.current.target.lerp(new THREE.Vector3(position[0], position[1], position[2]), 0.1);
+
+      const target = new THREE.Vector3(...position);
+      controlsRef.current.target.copy(target);
       controlsRef.current.update();
     }
   });
-
-  return <OrbitControls ref={controlsRef} />;
+  return (
+    <>
+      <perspectiveCamera ref={cameraRef} />
+      <OrbitControls ref={controlsRef} />
+    </>
+  );
 };
 
 const CanvasBox: React.FC = () => {
@@ -44,7 +55,8 @@ const CanvasBox: React.FC = () => {
       <Canvas
         style={{ background: "black", height: '100vh', width: '100vw' }}
         camera={{ position: [0, 50, 0], rotation: [-Math.PI / 2, 0, 0] }}
-        shadows>
+        shadows
+      >
         <CameraController position={position} />
         <ambientLight intensity={0.5} />
         <directionalLight
