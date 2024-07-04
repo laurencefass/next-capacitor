@@ -19,16 +19,16 @@ export function useRotation() {
         const newRotation = [...prev] as [number, number, number];
         switch (direction) {
           case "up":
-            newRotation[0] -= 0.1;
+            newRotation[0] -= 0.01;
             break;
           case "down":
-            newRotation[0] += 0.1;
+            newRotation[0] += 0.01;
             break;
           case "left":
-            newRotation[2] -= 0.1;
+            newRotation[2] -= 0.01;
             break;
           case "right":
-            newRotation[2] += 0.1;
+            newRotation[2] += 0.01;
             break;
         }
         return newRotation;

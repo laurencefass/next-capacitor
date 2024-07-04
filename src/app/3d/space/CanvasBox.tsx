@@ -43,7 +43,7 @@ const CanvasBox: React.FC = () => {
       </div>
       <Canvas
         style={{ background: "black", height: '100vh', width: '100vw' }}
-        camera={{ position: [0, 0, 50], rotation: [-Math.PI / 2, 0, 0] }}
+        camera={{ position: [0, 50, 0], rotation: [-Math.PI / 2, 0, 0], near: 0.1, far: 5000 }}
         shadows
       >
         <CameraTracker position={position} />
