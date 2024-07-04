@@ -13,9 +13,6 @@ import { CameraTracker } from './CameraTracker';
 import { TexturedSphere } from './TexturedSphere';
 
 import "./CanvasBox.css";
-import GlowingDisk from './GlowingDisk';
-import ParticleCone from './ParticleCone';
-import GlowingTorus from './GlowingTorus';
 
 const CanvasBox: React.FC = () => {
   const { position, setPosition, startMove, stopMove } = useMovement();
@@ -42,6 +39,26 @@ const CanvasBox: React.FC = () => {
 
   const groupRef = useRef<THREE.Group>(null);
 
+  type Light = {
+    position: [number, number, number]
+    color: string;
+  }
+
+  const worldLights: Array<Light> = [
+    {
+      position: [0, -100, 0],
+      color: "white"
+    },
+    {
+      position: [0, 100, 0],
+      color: "purple"
+    },
+    {
+      position: [0, 0, 100],
+      color: "pink"
+    }
+  ]
+
   return (
     <>
       <div className="banner">
@@ -55,9 +72,9 @@ const CanvasBox: React.FC = () => {
       >
         <CameraTracker position={position} />
         <ambientLight intensity={0.5} />
-        <directionalLight
-          color="white"
-          position={[0, 10, 0]}
+        {worldLights.map((light, index) => (<directionalLight
+          color={light.color}
+          position={light.position}
           castShadow
           shadow-camera-left={-100}
           shadow-camera-right={100}
@@ -68,6 +85,7 @@ const CanvasBox: React.FC = () => {
           shadow-camera-near={0.5}
           shadow-camera-far={50}
         />
+        ))}
         {/* <group ref={groupRef} rotation={rotation} position={position}> */}
         <Model ref={modelRef} rotation={rotation} position={position} url="/models/capsule.glb" scale={[0.1, 0.1, 0.1]} />
         {/* <GlowingTorus isVisible={true} position={[0, 0, -0.1]} /> */}
