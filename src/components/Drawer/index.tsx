@@ -21,13 +21,6 @@ export const Drawer: React.FC<DrawerProps> = ({ children }) => {
         setIsDragging(down);
         console.log("useDrag");
 
-        if (!isDragging && !down && distX < 10) {
-            // Cancel the gesture if it's a click
-            console.log("its a click");
-            cancel();
-            return;
-        }
-
         if (down) {
             // Move the block as the user drags
             console.log("dragging started");
