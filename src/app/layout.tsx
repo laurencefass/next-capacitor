@@ -18,11 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="nav">
+        {/* <div className="nav">
           <Link href="/">Home</Link>
           <Link href="/drawer">drawer demo</Link>
           <Link href="/3d/space">react-three-fiber</Link>
-        </div>
+        </div> */}
         {children}
       </body>
     </html>
