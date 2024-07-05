@@ -12,7 +12,7 @@ import { Stars } from './Stars';
 import { CameraTracker } from './CameraTracker';
 import { TexturedSphere } from './TexturedSphere';
 
-import "./CanvasBox.css";
+import "./CanvasBox.scss";
 
 const CanvasBox: React.FC = () => {
   const { position, setPosition, startMove, stopMove } = useMovement();
@@ -66,7 +66,6 @@ const CanvasBox: React.FC = () => {
         <p>Simple demo of react-three-fiber and drei utility functions</p>
       </div>
       <Canvas
-        style={{ background: "black", height: '100vh', width: '100vw' }}
         camera={{ position: [0, 50, 0], rotation: [-Math.PI / 2, 0, 0], near: 0.1, far: 5000 }}
         shadows
       >

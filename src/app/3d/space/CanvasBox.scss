@@ -1,8 +1,9 @@
 .banner {
   position: absolute;
   flex-direction: column;
+  /* border: 5px solid red; */
   width: 100vw;
-  top: 0px;
+  top: 5vh;
   left: 0px;
   z-index: 1000;
   color: white;
@@ -13,10 +14,22 @@
   gap: 10px;
 }
 
+canvas {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  min-width: 100vw;
+  min-height: 100vh;
+  background: black;
+  padding: 0px;
+  margin: 0px;
+  max-height: 70vh;
+}
+
 .controls {
   position: absolute;
   width: 100vw;
-  bottom: 0px;
+  bottom: 10vh;
   left: 0px;
   z-index: 1000;
   color: white;
@@ -25,4 +38,8 @@
   align-items: stretch;
   justify-content: center;
   gap: 10px;
+
+  @media screen and (max-width: 600px) {
+    transform: scale(0.8) !important;
+  }
 }

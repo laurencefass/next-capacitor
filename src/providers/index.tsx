@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { setupIonicReact } from "@ionic/react";
-import { IonNextMenu } from "../app/ionic/IonNextMenu";
+import { IonNextMenu } from "../components/IonNextMenu";
 setupIonicReact({});
 
 import "./providers.css"
@@ -22,7 +22,7 @@ export function IonAppProvider({ children }: { children: React.ReactNode }) {
       <IonNextMenu />
       <IonPage>
         <IonHeader>
-          <IonToolbar>
+          <IonToolbar className="custom-toolbar">
             <IonTitle>Syntapse Next and Ionic integration</IonTitle>
           </IonToolbar>
         </IonHeader>
@@ -39,9 +39,9 @@ export function IonAppProvider({ children }: { children: React.ReactNode }) {
           <div className="page">
             {children}
           </div>
-          <IonMenuToggle>
+          {/* <IonMenuToggle>
             <IonButton>Click to open the menu</IonButton>
-          </IonMenuToggle>
+          </IonMenuToggle> */}
         </IonContent >
       </IonPage>
     </IonApp>}

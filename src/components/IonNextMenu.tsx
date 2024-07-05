@@ -3,7 +3,9 @@ import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonLis
 import Link from 'next/link';
 
 const menuItems = [
+  { href: '/', text: 'Home' },
   { href: '/ionic', text: 'Ionic Home' },
+  { href: '/3d/space', text: '3d demo' },
   { href: '/ionic/about', text: 'About' },
   { href: '/ionic/contact', text: 'Contact' },
   { href: '/ionic/rsc', text: 'Server Component' }

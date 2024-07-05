@@ -38,6 +38,15 @@
   --callout-border-rgb: 172, 175, 176;
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
+
+  --my-custom-color: rgba(0, 0, 0, 0.75);
+  --my-custom-border: 2px solid red;
+}
+
+ion-header,
+ion-toolbar {
+  --background: var(--my-custom-color) !important;
+  --color: white;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -73,6 +82,18 @@
   }
 }
 
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-weight: bold;
+}
+
+.bordered {
+  border: 2px solid gray;
+  padding: 10px;
+}
+
 .nav {
   display: flex;
   gap: 10px;
@@ -103,12 +124,24 @@ button {
   margin: 0;
 }
 
+.toolbar-container::part(native) {
+  border: 2px solid red !important;
+}
+
 .page {
+  position: fixed;
+  top: 0px;
+  left: 0px;
   display: block;
   width: 100vw;
   height: 100vh;
+  padding: 40px;
+  padding-top: 100px;
   margin: 0 auto;
-  padding: 20px;
+}
+
+.page * {
+  line-height: 1.5;
 }
 
 html,
