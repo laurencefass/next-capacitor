@@ -1,40 +1,57 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import "./ThrustButton.css";
 
 type ThrustButtonProps = {
     startThrust: () => void;
     stopThrust: () => void;
-    toggleThrust: () => void;
+    toggleAutoThrust: () => void;
     isThrusting: boolean;
 };
 
-const ThrustButton: React.FC<ThrustButtonProps> = ({
-    startThrust,
-    stopThrust,
-    toggleThrust,
-    isThrusting
-}) => {
-    const [isLongPress, setIsLongPress] = useState(false);
+const ThrustButton: React.FC<ThrustButtonProps> = ({ startThrust, stopThrust, toggleAutoThrust, isThrusting }) => {
+    const [tapCount, setTapCount] = useState(0);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-    const handleMouseDown = () => {
-        startThrust();
-        timeoutRef.current = setTimeout(() => {
-            setIsLongPress(true);
-            toggleThrust();
-        }, 3000); // 3 seconds
-    };
+    const handleSingleTap = useCallback(() => {
+        setTapCount((prev) => {
+            if (prev === 1) {
+                toggleAutoThrust();
+                return 0;
+            }
+            return 1;
+        });
 
-    const handleMouseUp = () => {
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
         }
-        if (!isLongPress) {
+
+        timeoutRef.current = setTimeout(() => {
+            setTapCount(0);
+        }, 300);
+    }, [toggleAutoThrust]);
+
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        };
+    }, []);
+
+    const handleClick = () => {
+        if (isThrusting) {
             stopThrust();
         } else {
-            toggleThrust();
+            startThrust();
         }
-        setIsLongPress(false);
+    };
+
+    const handleMouseDown = () => {
+        startThrust();
+    };
+
+    const handleMouseUp = () => {
+        stopThrust();
     };
 
     useEffect(() => {
@@ -57,11 +74,13 @@ const ThrustButton: React.FC<ThrustButtonProps> = ({
             window.removeEventListener("keydown", handleKeyDown);
             window.removeEventListener("keyup", handleKeyUp);
         };
-    }, []);
+    }, [handleMouseDown, handleMouseUp]);
 
     return (
         <button
             className="thrust-button"
+            onClick={handleSingleTap}
+            onDoubleClick={handleClick}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onTouchStart={handleMouseDown}

@@ -35,7 +35,7 @@ const CanvasBox: React.FC = () => {
     }
   };
 
-  const { startThrust, stopThrust, toggleThrust, isLongPress } = useThrust(handleThrust);
+  const { thrust, startThrust, stopThrust, toggleAutoThrust, isAutoThrust } = useThrust(handleThrust);
 
   const groupRef = useRef<THREE.Group>(null);
 
@@ -71,25 +71,23 @@ const CanvasBox: React.FC = () => {
       >
         <CameraTracker position={position} />
         <ambientLight intensity={0.5} />
-        {worldLights.map((light, index) => (<directionalLight
-          color={light.color}
-          position={light.position}
-          castShadow
-          shadow-camera-left={-100}
-          shadow-camera-right={100}
-          shadow-camera-top={100}
-          shadow-camera-bottom={-100}
-          shadow-mapSize-width={2048}
-          shadow-mapSize-height={2048}
-          shadow-camera-near={0.5}
-          shadow-camera-far={50}
-        />
+        {worldLights.map((light, index) => (
+          <directionalLight
+            key={index}
+            color={light.color}
+            position={light.position}
+            castShadow
+            shadow-camera-left={-100}
+            shadow-camera-right={100}
+            shadow-camera-top={100}
+            shadow-camera-bottom={-100}
+            shadow-mapSize-width={2048}
+            shadow-mapSize-height={2048}
+            shadow-camera-near={0.5}
+            shadow-camera-far={50}
+          />
         ))}
-        {/* <group ref={groupRef} rotation={rotation} position={position}> */}
         <Model ref={modelRef} rotation={rotation} position={position} url="/models/capsule.glb" scale={[0.1, 0.1, 0.1]} />
-        {/* <GlowingTorus isVisible={true} position={[0, 0, -0.1]} /> */}
-        {/* </group> */}
-        a
         <TexturedSphere args={[200, 32, 32]} position={[0, -250, 0]} url='/textures/earth.jpg' />
         <TexturedSphere args={[200, 32, 32]} position={[0, 0, 1200]} url='/textures/mars.jpg' />
         <TexturedSphere args={[200, 32, 32]} position={[600, 0, -600]} url='/textures/venus.jpg' />
@@ -102,8 +100,8 @@ const CanvasBox: React.FC = () => {
         <ThrustButton
           startThrust={startThrust}
           stopThrust={stopThrust}
-          toggleThrust={toggleThrust}
-          isThrusting={isLongPress}
+          toggleAutoThrust={toggleAutoThrust}
+          isThrusting={thrust || isAutoThrust}
         />
       </div>
     </>
