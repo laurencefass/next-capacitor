@@ -1,8 +1,8 @@
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
 import { useInterval } from "./useInterval";
 import * as THREE from "three";
 
-export function useRotation(cameraRef: React.RefObject<THREE.Camera>) {
+export function useRotation(camera: THREE.Camera | null) {
   const [rotation, setRotation] = useState<[number, number, number]>([0, 0, 0]);
   const [direction, setDirection] = useState<string | null>(null);
 
@@ -16,9 +16,9 @@ export function useRotation(cameraRef: React.RefObject<THREE.Camera>) {
 
   useInterval(
     () => {
-      if (!cameraRef.current) return rotation;
+      if (!camera) return;
 
-      const cameraQuaternion = cameraRef.current.quaternion.clone();
+      const cameraQuaternion = camera.quaternion.clone();
       const rotationQuaternion = new THREE.Quaternion().setFromEuler(new THREE.Euler(...rotation));
 
       const angle = 0.01;
@@ -38,7 +38,7 @@ export function useRotation(cameraRef: React.RefObject<THREE.Camera>) {
           axis.set(0, -1, 0).applyQuaternion(cameraQuaternion);
           break;
         default:
-          return rotation;
+          return;
       }
 
       const deltaQuaternion = new THREE.Quaternion().setFromAxisAngle(axis, angle);

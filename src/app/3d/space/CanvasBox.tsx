@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { Canvas } from '@react-three/fiber';
+import React, { useEffect, useRef, useState } from 'react';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 
 import { useRotation, useMovement, useThrust, useRotationHotkeys } from './hooks';
@@ -14,10 +14,11 @@ import { TexturedSphere } from './TexturedSphere';
 
 import "./CanvasBox.scss";
 
+
 const CanvasBox: React.FC = () => {
   const { position, setPosition, startMove, stopMove } = useMovement();
-  const cameraRef = useRef<THREE.Camera>(null);
-  const { rotation, startRotate, stopRotate } = useRotation(cameraRef);
+  const [camera, setCamera] = useState<THREE.Camera | null>(null);
+  const { rotation, startRotate, stopRotate } = useRotation(camera);
   useRotationHotkeys({ onRotateStart: startRotate, onRotateStop: stopRotate });
 
   const modelRef = useRef<THREE.Group>(null);
@@ -66,13 +67,12 @@ const CanvasBox: React.FC = () => {
         <h1>React 3D demo: Space Explorer</h1>
         <p>Simple demo of react-three-fiber and drei utility functions</p>
         <p>Look around with mouse or drag, fly and rotate with WASD keys or buttons</p>
-        <p>3D rotation and direction transforms are a WIP</p>
       </div>
       <Canvas
-        camera={{ position: [0, 50, 0], rotation: [-Math.PI / 2, 0, 0], near: 0.1, far: 5000 }}
+        camera={{ position: [0, 50, 0], rotation: [-Math.PI / 2, 0, 0], near: 0.1, far: 20000 }}
         shadows
         onCreated={({ camera }) => {
-          cameraRef.current = camera;
+          setCamera(camera);
         }}
       >
         <CameraTracker position={position} />
@@ -93,11 +93,13 @@ const CanvasBox: React.FC = () => {
             shadow-camera-far={50}
           />
         ))}
-        <Model ref={modelRef} rotation={rotation} position={position} url="/models/capsule.glb" scale={[0.1, 0.1, 0.1]} />
+        <Model ref={modelRef} rotation={rotation} position={position} url="/models/capsule.glb" scale={[0.05, 0.05, 0.05]} />
         <TexturedSphere args={[200, 32, 32]} position={[0, -250, 0]} url='/textures/earth.jpg' />
         <TexturedSphere args={[200, 32, 32]} position={[0, 0, 1200]} url='/textures/mars.jpg' />
         <TexturedSphere args={[200, 32, 32]} position={[600, 0, -600]} url='/textures/venus.jpg' />
         <TexturedSphere args={[600, 32, 32]} position={[0, 1200, 0]} url='/textures/jupiter.jpg' />
+        <TexturedSphere args={[1200, 32, 32]} position={[0, 4800, 4800]} url='/textures/sun.jpg' />
+        {/* <Sun /> */}
         <Stars />
       </Canvas >
       <div className="controls">
