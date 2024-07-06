@@ -16,7 +16,8 @@ import "./CanvasBox.scss";
 
 const CanvasBox: React.FC = () => {
   const { position, setPosition, startMove, stopMove } = useMovement();
-  const { rotation, startRotate, stopRotate } = useRotation();
+  const cameraRef = useRef<THREE.Camera>(null);
+  const { rotation, startRotate, stopRotate } = useRotation(cameraRef);
   useRotationHotkeys({ onRotateStart: startRotate, onRotateStop: stopRotate });
 
   const modelRef = useRef<THREE.Group>(null);
@@ -70,6 +71,9 @@ const CanvasBox: React.FC = () => {
       <Canvas
         camera={{ position: [0, 50, 0], rotation: [-Math.PI / 2, 0, 0], near: 0.1, far: 5000 }}
         shadows
+        onCreated={({ camera }) => {
+          cameraRef.current = camera;
+        }}
       >
         <CameraTracker position={position} />
         <ambientLight intensity={0.5} />

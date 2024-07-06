@@ -1,7 +1,8 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useInterval } from "./useInterval";
+import * as THREE from "three";
 
-export function useRotation() {
+export function useRotation(cameraRef: React.RefObject<THREE.Camera>) {
   const [rotation, setRotation] = useState<[number, number, number]>([0, 0, 0]);
   const [direction, setDirection] = useState<string | null>(null);
 
@@ -15,24 +16,37 @@ export function useRotation() {
 
   useInterval(
     () => {
-      setRotation((prev) => {
-        const newRotation = [...prev] as [number, number, number];
-        switch (direction) {
-          case "up":
-            newRotation[0] -= 0.01;
-            break;
-          case "down":
-            newRotation[0] += 0.01;
-            break;
-          case "left":
-            newRotation[2] -= 0.01;
-            break;
-          case "right":
-            newRotation[2] += 0.01;
-            break;
-        }
-        return newRotation;
-      });
+      if (!cameraRef.current) return rotation;
+
+      const cameraQuaternion = cameraRef.current.quaternion.clone();
+      const rotationQuaternion = new THREE.Quaternion().setFromEuler(new THREE.Euler(...rotation));
+
+      const angle = 0.01;
+      let axis = new THREE.Vector3();
+
+      switch (direction) {
+        case "up":
+          axis.set(1, 0, 0).applyQuaternion(cameraQuaternion);
+          break;
+        case "down":
+          axis.set(-1, 0, 0).applyQuaternion(cameraQuaternion);
+          break;
+        case "left":
+          axis.set(0, 1, 0).applyQuaternion(cameraQuaternion);
+          break;
+        case "right":
+          axis.set(0, -1, 0).applyQuaternion(cameraQuaternion);
+          break;
+        default:
+          return rotation;
+      }
+
+      const deltaQuaternion = new THREE.Quaternion().setFromAxisAngle(axis, angle);
+      rotationQuaternion.multiplyQuaternions(deltaQuaternion, rotationQuaternion);
+
+      const euler = new THREE.Euler().setFromQuaternion(rotationQuaternion);
+
+      setRotation([euler.x, euler.y, euler.z]);
     },
     direction ? 10 : null
   );
