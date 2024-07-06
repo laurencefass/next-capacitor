@@ -64,6 +64,8 @@ const CanvasBox: React.FC = () => {
       <div className="banner">
         <h1>React 3D demo: Space Explorer</h1>
         <p>Simple demo of react-three-fiber and drei utility functions</p>
+        <p>Look around with mouse or drag, fly and rotate with WASD keys or buttons</p>
+        <p>3D rotation and direction transforms are a WIP</p>
       </div>
       <Canvas
         camera={{ position: [0, 50, 0], rotation: [-Math.PI / 2, 0, 0], near: 0.1, far: 5000 }}
