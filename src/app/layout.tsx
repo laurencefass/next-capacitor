@@ -5,6 +5,8 @@ import Script from "next/script";
 
 import { IonAppProvider } from "@/providers";
 
+import { Provider } from 'react-redux';
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -31,6 +33,7 @@ import "./globals.scss";
  */
 
 import '@ionic/react/css/palettes/dark.always.css';
+import { Providers } from "@/store/providers";
 //  import '@ionic/react/css/palettes/dark.class.css'; 
 // import '@ionic/react/css/palettes/dark.system.css';
 const inter = Inter({ subsets: ["latin"] });
@@ -45,12 +48,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let initialState;
+
   return (
     <html lang="en">
       <body>
-        <IonAppProvider>
-          {children}
-        </IonAppProvider>
+        <Providers initialState={initialState}>
+          <IonAppProvider>
+            {children}
+          </IonAppProvider>
+        </Providers>
       </body>
       <Script
         type="module"

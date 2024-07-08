@@ -13,8 +13,6 @@ export const viewport: Viewport = {
     viewportFit: 'cover',
 };
 
-export const dynamic = true;
-
 export default function RootLayout({
     children,
 }: Readonly<{

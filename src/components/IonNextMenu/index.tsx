@@ -5,7 +5,12 @@ import Link from 'next/link';
 const menuItems = [
   { href: '/', text: 'Home' },
   { href: '/ionic', text: 'Ionic Home' },
-  { href: '/3d/space', text: '3d demo' },
+  { href: '/3d/space', text: '3D React-fiber demo' },
+  { href: '/use', text: 'use() demo' },
+  { href: '/redux', text: 'Redux + signals' },
+  { href: "/content/hello-mdx", text: "Basic MDX component" },
+  { href: "/content/mdx-in-tsx", text: "MDX in TSX" },
+  { href: '/redux/verify', text: 'Verify redux state' },
   { href: '/ionic/about', text: 'About' },
   { href: '/ionic/contact', text: 'Contact' },
   { href: '/ionic/rsc', text: 'Server Component' }

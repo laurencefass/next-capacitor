@@ -1,0 +1,29 @@
+import { Counter, Spaces } from "./Counter";
+
+# Redux with Signals demo
+
+This demo shows how to use redux with signals
+
+## Background: 
+
+- React state updates trigger re-renders of entire component trees. This can be inefficient and includes redux subscriptions.
+- Signals offer more efficient, granular re-renders by only updating the components that are subscribed to the signal.
+- Use of Redux and Signals is not mutually exclusive. They can be used together.
+- Signals can be fully integrated with redux state and mixed with non-reactive state in the store
+- This component interacts with a redux slice consisting of two counters - one normal (non-reactive) state and the other a signal
+
+## The component hierarchy looks like this:
+
+Parent  
+<Spaces count={4}/>├── Publisher  
+<Spaces count={4}/>└── Subscriber  
+<Spaces count={16}/>└── SubscriberChild  
+
+## Explanation
+
+- The random numbers will update every time a component is re-rendered.
+- The Publisher dispatches redux actions to increment/decrement the counters stored in redux state.
+- The Subscriber has no inputs. No props are passed instead it uses the useSelector hook to access the state directly.
+- Note how incrementing the signal state does not update the child component
+
+<Counter />

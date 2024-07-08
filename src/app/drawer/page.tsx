@@ -7,6 +7,11 @@ import { useState } from "react";
 export default function Page() {
     const [count, setCount] = useState(0);
     return <>
+        <h1>Drawer</h1>
+        <p>This is has been deprecated in favour of IonMenu which is a more robust solution</p>
+    </>
+    
+    return <>
         <div className="drawer-page">
             <h1>Draggable block demonstration</h1>
             <h2>Swipe from the left to reveal an interactive drawer</h2>
@@ -14,13 +19,12 @@ export default function Page() {
             <button onClick={() => setCount(count => count + 1)}>Increment</button>
             <div>count: {count}</div>
         </div>
-        <Drawer>
+        {/* <Drawer>
             <div className="drawer-page">
                 <h1>This is an interactive draggable drawer!</h1>
                 <button onClick={() => setCount(count => count + 1)}>Increment</button>
                 <div>count: {count}</div>
             </div>
-        </Drawer>
-
+        </Drawer> */}
     </>
 }

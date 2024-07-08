@@ -4,13 +4,13 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, I
 
 export default function Content({ children }: { children: React.ReactNode }) {
     return <>
-        <IonHeader>
+        {/* <IonHeader>
             <IonToolbar>
                 <IonButtons slot="start">
                     <IonButton>Another Button</IonButton>
                 </IonButtons>
             </IonToolbar>
-        </IonHeader>
+        </IonHeader> */}
         <IonContent className="ion-padding">
             {children}
         </IonContent>

@@ -128,16 +128,22 @@ button {
   border: 2px solid red !important;
 }
 
+hr {
+  height: 1rem;
+}
+
 .page {
   position: fixed;
   top: 0px;
   left: 0px;
-  display: block;
+  // display: block;
   width: 100vw;
   height: 100vh;
   padding: 40px;
   padding-top: 100px;
+  padding-bottom: 100px;
   margin: 0 auto;
+  overflow-y: scroll;
 }
 
 .page * {
