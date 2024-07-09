@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  node-app:
-    image: node:18.17.0
+  nextcap:
+    image: node:18.17.0-alpine
     hostname: nextcap
     container_name: nextcap
     environment:
@@ -16,7 +16,28 @@ services:
       - ./.next.dev:/.next
     working_dir: /app
     # command: tail -f /dev/null
-    command: "npm run dev"
+    # command: "npm run dev"
+    command: "npm run start"
+    networks:
+      main-net: 
+
+  capacitor:
+    image: node:18.17.0-alpine
+    hostname: capacitor
+    container_name: capacitor
+    environment:
+    - VIRTUAL_HOST=capacitor.${LETSENCRYPT_HOST}
+    - LETSENCRYPT_HOST=capacitor.${LETSENCRYPT_HOST}
+    - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    expose:
+      - "3000"
+    volumes:
+      - .:/app
+      - ./.next.prod:/.next
+    working_dir: /app
+    command: tail -f /dev/null
+    # command: "npm run dev"
+    # command: "npm run start"
     networks:
       main-net: 
 
