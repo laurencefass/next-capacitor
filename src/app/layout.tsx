@@ -71,17 +71,4 @@ export default function RootLayout({
       />
     </html>
   );
-
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        {/* <div className="nav">
-          <Link href="/">Home</Link>
-          <Link href="/drawer">drawer demo</Link>
-          <Link href="/3d/space">react-three-fiber</Link>
-        </div> */}
-        {children}
-      </body>
-    </html>
-  );
 }
