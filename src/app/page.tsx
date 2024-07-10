@@ -5,6 +5,8 @@ import { Counter } from "../components/Counter";
 export default function Home() {
   const isDevelopment = process.env.NODE_ENV === 'development';
 
+  console.log("Next JS server is running and rendering server components!");
+  
   return (
     <main className={styles.main}>
       <div className={styles.center}>
