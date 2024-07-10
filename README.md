@@ -27,7 +27,23 @@ export PATH="$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin"
 - aim is to run the dev server in a container for live updates and isolated output when building/rebuilding the static output
 - this is quite server specific so change for your environment
 
-- docker compose up for the dev server. dev version outputs to .next.dev
+- docker compose up for the dev server. 
+
+dev version outputs to .next.dev
+prod version outputs to .next.prod
+
+## to run next js server
+
+volumes:
+    - ./.next.prod:/app/.next
+    - ./next.config.server.mjs:/app/next.config.mjs
+command: npm run start
+
+## to run static (exported) server
+
+volumes: 
+    - ./next.config.static.mjs:/app/next.config.mjs
+command: "npx serve@latest out" 
 
 # create android app
 
