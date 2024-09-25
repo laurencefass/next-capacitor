@@ -3,13 +3,33 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 6rem;
   min-height: 100vh;
+}
+
+.main div {
+  font-size: 1.2rem;
+}
+
+.main img {
+  margin-top: 20px;
+  filter: invert(1) brightness(2);
+}
+
+.main h1 {
+  font-size: min(4rem, 10vw);
+  margin: 0;
+}
+
+.main h2,
+.main h3 {
+  font-size: min(2rem, 6vw);
+  margin: 20px 0px;
 }
 
 .main a {
   text-decoration: underline;
 }
+
 .description {
   display: inherit;
   justify-content: inherit;

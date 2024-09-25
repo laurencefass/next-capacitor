@@ -35,14 +35,13 @@ services:
       - .:/app
       - ./.next.prod:/app/.next
       # configure for server or static (use matching command)
-      - ./next.config.server.mjs:/app/next.config.mjs
-      # - ./next.config.static.mjs:/app/next.config.mjs
+      # - ./next.config.server.mjs:/app/next.config.mjs
+      - ./next.config.static.mjs:/app/next.config.mjs
     working_dir: /app
     # run interactve, dev, server or static
     # command: tail -f /dev/null
-    # command: "npm run dev"
-    command: "npm run start"
-    # command: "npx serve@latest out" 
+    # command: "npm run start"
+    command: "npx serve@latest out" 
     networks:
       main-net: 
 

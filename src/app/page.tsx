@@ -6,7 +6,7 @@ export default function Home() {
   const isDevelopment = process.env.NODE_ENV === 'development';
 
   console.log("Next JS server is running and rendering server components!");
-  
+
   return (
     <main className={styles.main}>
       <div className={styles.center}>
@@ -20,16 +20,20 @@ export default function Home() {
           priority
         />
         <h1>Capacitor</h1>
+        <h3>Web and native mobile apps from a single codebase</h3>
+        <div>Outputs PWA web, native IOS and native Android images with identical features</div>
+        <div>Develop software for channels - not platforms</div>
+        <div>Unify your devs into a single team and reduce management complexity</div>
       </div>
 
-      <div>(to prove its actually doing something)</div>
-      <Counter />
-
       {isDevelopment ?
-        <h2>Download and install <a href="/nextcap.apk">the Android app</a></h2>
+        <h2>Download and install <a href="/nextcap.apk">the identical Android app</a> directly from this site</h2>
         :
         <h2>Download/install/update this app <a href="https://nextcap.syntapse.co.uk">from the website</a></h2>
       }
+
+      <Counter />
+
 
       <div className={styles.grid}>
         <a

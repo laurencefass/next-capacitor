@@ -16,7 +16,8 @@ export const Counter: React.FC = () => {
 
     return (
         <div>
-            <h1>React Counter: {count}</h1>
+            <h2>Checking React is working...</h2>
+            <h3>React Counter: {count}</h3>
         </div>
     );
 };
